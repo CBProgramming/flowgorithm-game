@@ -1,0 +1,934 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.6">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="T7145969"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2017-12-27 05:07:50 PM"/>
+        <attribute name="created" value="VDcxNDU5Njk7IFRVNjk0NDU7IDIwMTctMTEtMDY7IDA4OjU2OjUyIEFNOyAyMjY3"/>
+        <attribute name="edited" value="Q2hyaXM7IERFU0tUT1AtUjM5VFVNTzsgMjAxNy0xMi0yNzsgMDU6MDc6NTAgUE07IDI5ODI="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="NumPlayers" type="Integer" array="False" size=""/>
+            <assign variable="NumPlayers" expression="2"/>
+            <declare name="RowsCount" type="Integer" array="False" size=""/>
+            <assign variable="RowsCount" expression="5"/>
+            <declare name="ColumnCount" type="Integer" array="False" size=""/>
+            <assign variable="ColumnCount" expression="8"/>
+            <declare name="FinalBoardValue" type="Integer" array="False" size=""/>
+            <assign variable="FinalBoardValue" expression="10"/>
+            <declare name="RandomStart" type="Integer" array="False" size=""/>
+            <assign variable="RandomStart" expression="-5"/>
+            <declare name="RandomFinish" type="Integer" array="False" size=""/>
+            <assign variable="RandomFinish" expression="5"/>
+            <declare name="TrueRandom" type="Boolean" array="False" size=""/>
+            <assign variable="TrueRandom" expression="False"/>
+            <declare name="QuestionMark" type="Boolean" array="False" size=""/>
+            <assign variable="QuestionMark" expression="True"/>
+            <declare name="SnakeWrapEnabled" type="Boolean" array="False" size=""/>
+            <assign variable="SnakeWrapEnabled" expression="True"/>
+            <declare name="MainMenu" type="Boolean" array="False" size=""/>
+            <assign variable="MainMenu" expression="True"/>
+            <declare name="OptionsMenu" type="Boolean" array="False" size=""/>
+            <declare name="ValidInput" type="Boolean" array="False" size=""/>
+            <declare name="MainMenuText" type="String" array="False" size=""/>
+            <assign variable="MainMenuText" expression="ToChar(13) &amp; &quot;Please select one of the following options: &quot; &amp; ToChar(13) &amp; &quot;1.  Play Outmanumber&quot; &amp; ToChar(13) &amp; &quot;2.  Options&quot; &amp; ToChar(13) &amp; &quot;3.  Rules&quot; &amp; ToChar(13) &amp; &quot;4.  Exit Game&quot;"/>
+            <declare name="OptionsText" type="String" array="False" size=""/>
+            <assign variable="OptionsText" expression="ToChar(13) &amp; &quot;Please select from the following options:&quot; &amp; ToChar(13) &amp; &quot;1.  Adjust number of players&quot; &amp; ToChar(13) &amp; &quot;2.  Adjust board size&quot; &amp; ToChar(13) &amp; &quot;3.  Adjust points range&quot; &amp; ToChar(13) &amp; &quot;4.  Adjust random number generator&quot; &amp; ToChar(13) &amp; &quot;5.  Adjust board layout&quot; &amp; ToChar(13) &amp; &quot;6.  Adjust mystery square&quot; &amp; ToChar(13) &amp; &quot;7.  Revert to original settings&quot; &amp; ToChar(13) &amp; &quot;8.  Main Menu&quot;"/>
+            <declare name="InvalidSelection" type="String" array="False" size=""/>
+            <assign variable="InvalidSelection" expression="ToChar(13) &amp; &quot;Invalid number entered.&quot;"/>
+            <declare name="Selection" type="Integer" array="False" size=""/>
+            <declare name="WhatsChanging" type="String" array="False" size=""/>
+            <declare name="MenuQuestion" type="String" array="False" size=""/>
+            <declare name="SmallBoard" type="Integer" array="False" size=""/>
+            <output expression="&quot;Welcome to Outmanumber!&quot;"/>
+            <call expression="ShowRules(RandomStart,RandomFinish,FinalBoardValue)"/>
+            <while expression="MainMenu">
+                <output expression="MainMenuText"/>
+                <input variable="Selection"/>
+                <if expression="Selection &gt;= 1 and Selection &lt;= 4">
+                    <then>
+                        <if expression="Selection = 1">
+                            <then>
+                                <call expression="RunGame(RowsCount,ColumnCount,FinalBoardValue,NumPlayers,RandomFinish,RandomStart,TrueRandom,SnakeWrapEnabled,QuestionMark)"/>
+                            </then>
+                            <else>
+                                <if expression="Selection = 2">
+                                    <then>
+                                        <assign variable="OptionsMenu" expression="True"/>
+                                        <while expression="OptionsMenu">
+                                            <output expression="OptionsText"/>
+                                            <input variable="Selection"/>
+                                            <if expression="Selection &gt;= 1 and Selection &lt;= 8">
+                                                <then>
+                                                    <if expression="Selection = 1">
+                                                        <then>
+                                                            <declare name="LowestPlayers" type="Integer" array="False" size=""/>
+                                                            <assign variable="LowestPlayers" expression="2"/>
+                                                            <declare name="HighestPlayers" type="Integer" array="False" size=""/>
+                                                            <assign variable="HighestPlayers" expression="5"/>
+                                                            <assign variable="WhatsChanging" expression="&quot;number of players&quot;"/>
+                                                            <assign variable="NumPlayers" expression="OptionsGetNumber(WhatsChanging,LowestPlayers,HighestPlayers)"/>
+                                                            <assign variable="SmallBoard" expression="NumPlayers * 10"/>
+                                                            <if expression="RowsCount * ColumnCount &lt;= SmallBoard">
+                                                                <then>
+                                                                    <output expression="ToChar(13) &amp; &quot;Warning! Board size will be very small for &quot; &amp; NumPlayers &amp; &quot; players.&quot; &amp; ToChar(13) &amp; &quot;It's recommended that you increase the board size in the options menu.&quot;"/>
+                                                                </then>
+                                                                <else/>
+                                                            </if>
+                                                        </then>
+                                                        <else>
+                                                            <if expression="Selection = 2">
+                                                                <then>
+                                                                    <declare name="LowestBoardSize" type="Integer" array="False" size=""/>
+                                                                    <assign variable="LowestBoardSize" expression="1"/>
+                                                                    <declare name="HighestBoardSize" type="Integer" array="False" size=""/>
+                                                                    <assign variable="HighestBoardSize" expression="20"/>
+                                                                    <declare name="OldRows" type="Integer" array="False" size=""/>
+                                                                    <declare name="OldColumns" type="Integer" array="False" size=""/>
+                                                                    <assign variable="OldRows" expression="RowsCount"/>
+                                                                    <assign variable="OldColumns" expression="ColumnCount"/>
+                                                                    <assign variable="SmallBoard" expression="NumPlayers * 10"/>
+                                                                    <assign variable="WhatsChanging" expression="&quot;number of rows&quot;"/>
+                                                                    <assign variable="RowsCount" expression="OptionsGetNumber(WhatsChanging,LowestBoardSize,HighestBoardSize)"/>
+                                                                    <assign variable="WhatsChanging" expression="&quot;number of columns&quot;"/>
+                                                                    <assign variable="ColumnCount" expression="OptionsGetNumber(WhatsChanging,LowestBoardSize,HighestBoardSize)"/>
+                                                                    <if expression="RowsCount * ColumnCount &lt;= SmallBoard">
+                                                                        <then>
+                                                                            <output expression="ToChar(13) &amp; &quot;Warning! Board size will be very small for &quot; &amp; NumPlayers &amp; &quot; players.&quot;"/>
+                                                                            <assign variable="MenuQuestion" expression="&quot;Do you want to keep the new values? (yes/no)&quot;"/>
+                                                                            <if expression="ValidateYesOrNo(MenuQuestion) = True">
+                                                                                <then/>
+                                                                                <else>
+                                                                                    <assign variable="RowsCount" expression="OldRows"/>
+                                                                                    <assign variable="ColumnCount" expression="OldColumns"/>
+                                                                                </else>
+                                                                            </if>
+                                                                            <output expression="ToChar(13) &amp; &quot;Board dimensions have been set to &quot; &amp; RowsCount &amp; &quot; rows and &quot; &amp; ColumnCount &amp; &quot; columns.&quot;"/>
+                                                                        </then>
+                                                                        <else/>
+                                                                    </if>
+                                                                </then>
+                                                                <else>
+                                                                    <if expression="Selection = 3">
+                                                                        <then>
+                                                                            <declare name="LowestBoardValue" type="Integer" array="False" size=""/>
+                                                                            <assign variable="LowestBoardValue" expression="-99"/>
+                                                                            <declare name="HighestBoardValue" type="Integer" array="False" size=""/>
+                                                                            <assign variable="HighestBoardValue" expression="99"/>
+                                                                            <assign variable="WhatsChanging" expression="&quot;lowest board value&quot;"/>
+                                                                            <assign variable="RandomStart" expression="OptionsGetNumber(WhatsChanging,LowestBoardValue,HighestBoardValue - 1)"/>
+                                                                            <assign variable="WhatsChanging" expression="&quot;highest board value&quot;"/>
+                                                                            <assign variable="RandomFinish" expression="OptionsGetNumber(WhatsChanging,RandomStart + 1,HighestBoardValue)"/>
+                                                                            <assign variable="WhatsChanging" expression="&quot;final board value&quot;"/>
+                                                                            <assign variable="FinalBoardValue" expression="OptionsGetNumber(WhatsChanging,LowestBoardValue,HighestBoardValue)"/>
+                                                                        </then>
+                                                                        <else>
+                                                                            <if expression="Selection = 4">
+                                                                                <then>
+                                                                                    <assign variable="WhatsChanging" expression="&quot;'True random'&quot;"/>
+                                                                                    <assign variable="TrueRandom" expression="OptionsChangeFeature(WhatsChanging,TrueRandom)"/>
+                                                                                </then>
+                                                                                <else>
+                                                                                    <if expression="Selection = 5">
+                                                                                        <then>
+                                                                                            <assign variable="WhatsChanging" expression="&quot;'Snake wrap'&quot;"/>
+                                                                                            <assign variable="SnakeWrapEnabled" expression="OptionsChangeFeature(WhatsChanging,SnakeWrapEnabled)"/>
+                                                                                        </then>
+                                                                                        <else>
+                                                                                            <if expression="Selection = 6">
+                                                                                                <then>
+                                                                                                    <assign variable="WhatsChanging" expression="&quot;The mystery square&quot;"/>
+                                                                                                    <assign variable="QuestionMark" expression="OptionsChangeFeature(WhatsChanging,QuestionMark)"/>
+                                                                                                </then>
+                                                                                                <else>
+                                                                                                    <if expression="Selection = 7">
+                                                                                                        <then>
+                                                                                                            <assign variable="MenuQuestion" expression="ToChar(13) &amp; &quot;Are you sure you want to revert all settings to original values? (Yes/No)&quot;"/>
+                                                                                                            <if expression="ValidateYesOrNo(MenuQuestion) = True">
+                                                                                                                <then>
+                                                                                                                    <assign variable="NumPlayers" expression="2"/>
+                                                                                                                    <assign variable="RowsCount" expression="5"/>
+                                                                                                                    <assign variable="ColumnCount" expression="8"/>
+                                                                                                                    <assign variable="RandomStart" expression="-5"/>
+                                                                                                                    <assign variable="RandomFinish" expression="5"/>
+                                                                                                                    <assign variable="FinalBoardValue" expression="10"/>
+                                                                                                                    <assign variable="TrueRandom" expression="False"/>
+                                                                                                                    <assign variable="SnakeWrapEnabled" expression="True"/>
+                                                                                                                    <assign variable="QuestionMark" expression="True"/>
+                                                                                                                    <output expression="&quot;All settings have been reverted to original values.&quot;"/>
+                                                                                                                </then>
+                                                                                                                <else>
+                                                                                                                    <output expression="&quot;Settings remain set at customized values.&quot;"/>
+                                                                                                                </else>
+                                                                                                            </if>
+                                                                                                        </then>
+                                                                                                        <else>
+                                                                                                            <assign variable="OptionsMenu" expression="False"/>
+                                                                                                        </else>
+                                                                                                    </if>
+                                                                                                </else>
+                                                                                            </if>
+                                                                                        </else>
+                                                                                    </if>
+                                                                                </else>
+                                                                            </if>
+                                                                        </else>
+                                                                    </if>
+                                                                </else>
+                                                            </if>
+                                                        </else>
+                                                    </if>
+                                                </then>
+                                                <else>
+                                                    <output expression="InvalidSelection"/>
+                                                </else>
+                                            </if>
+                                        </while>
+                                    </then>
+                                    <else>
+                                        <if expression="Selection = 3">
+                                            <then>
+                                                <call expression="ShowRules(RandomStart,RandomFinish,FinalBoardValue)"/>
+                                            </then>
+                                            <else>
+                                                <assign variable="MainMenu" expression="False"/>
+                                                <output expression="ToChar(13) &amp; &quot;Thanks for playing Outmanumber!  Goodbye!&quot;"/>
+                                            </else>
+                                        </if>
+                                    </else>
+                                </if>
+                            </else>
+                        </if>
+                    </then>
+                    <else>
+                        <output expression="InvalidSelection"/>
+                    </else>
+                </if>
+            </while>
+        </body>
+    </function>
+    <function name="CompletionStatement" type="None" variable="">
+        <parameters>
+            <parameter name="NumPlay" type="Integer" array="False"/>
+            <parameter name="PlayScores" type="Integer" array="True"/>
+            <parameter name="PlayNames" type="String" array="True"/>
+            <parameter name="ScoreAdjustment" type="Integer" array="False"/>
+            <parameter name="PlayerWithScoreAdjustment" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="LeaderIndex" type="Integer" array="False" size=""/>
+            <assign variable="LeaderIndex" expression="0"/>
+            <declare name="IsDraw" type="Boolean" array="False" size=""/>
+            <assign variable="IsDraw" expression="False"/>
+            <declare name="DrawStatement" type="String" array="False" size=""/>
+            <assign variable="DrawStatement" expression="&quot;It's a draw between &quot;"/>
+            <declare name="Index" type="Integer" array="False" size=""/>
+            <declare name="RealScores" type="Real" array="True" size="NumPlay"/>
+            <for variable="Index" start="0" end="NumPlay - 1" direction="inc" step="1">
+                <if expression="Index = PlayerWithScoreAdjustment">
+                    <then>
+                        <if expression="ScoreAdjustment = 0">
+                            <then>
+                                <assign variable="RealScores[Index]" expression="PlayScores[Index] * 2"/>
+                            </then>
+                            <else>
+                                <assign variable="RealScores[Index]" expression="PlayScores[Index] / 2"/>
+                            </else>
+                        </if>
+                    </then>
+                    <else>
+                        <assign variable="RealScores[Index]" expression="PlayScores[Index]"/>
+                    </else>
+                </if>
+            </for>
+            <for variable="Index" start="1" end="NumPlay - 1" direction="inc" step="1">
+                <if expression="RealScores[Index] == RealScores[LeaderIndex]">
+                    <then>
+                        <if expression="IsDraw = True">
+                            <then>
+                                <assign variable="DrawStatement" expression="DrawStatement &amp; &quot; and &quot; &amp; PlayNames[Index]"/>
+                            </then>
+                            <else>
+                                <assign variable="DrawStatement" expression="DrawStatement &amp; PlayNames[LeaderIndex] &amp; &quot; and &quot; &amp; PlayNames[Index]"/>
+                            </else>
+                        </if>
+                        <assign variable="IsDraw" expression="True"/>
+                    </then>
+                    <else>
+                        <if expression="RealScores[Index] &gt; RealScores[LeaderIndex]">
+                            <then>
+                                <assign variable="IsDraw" expression="False"/>
+                                <assign variable="LeaderIndex" expression="Index"/>
+                                <assign variable="DrawStatement" expression="&quot;It's a draw between &quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </else>
+                </if>
+            </for>
+            <if expression="IsDraw == True">
+                <then>
+                    <output expression="ToChar(13) &amp; DrawStatement &amp; &quot;!&quot;"/>
+                </then>
+                <else>
+                    <output expression="ToChar(13) &amp; PlayNames[LeaderIndex] &amp; &quot; has won!&quot;"/>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="ConvertToUpper" type="String" variable="UpperCase">
+        <parameters>
+            <parameter name="Text" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="TextIndex" type="Integer" array="False" size=""/>
+            <declare name="UpperCase" type="String" array="False" size=""/>
+            <assign variable="UpperCase" expression="&quot;&quot;"/>
+            <declare name="Unicode" type="Integer" array="False" size=""/>
+            <for variable="TextIndex" start="0" end="Len(Text) - 1" direction="inc" step="1">
+                <assign variable="Unicode" expression="ToCode(Char(Text,TextIndex))"/>
+                <if expression="Unicode &gt;= 97 and Unicode &lt;= 122">
+                    <then>
+                        <assign variable="UpperCase" expression="UpperCase &amp; ToChar(Unicode - 32)"/>
+                    </then>
+                    <else>
+                        <assign variable="UpperCase" expression="Uppercase &amp; ToChar(Unicode)"/>
+                    </else>
+                </if>
+            </for>
+        </body>
+    </function>
+    <function name="DrawBoard" type="None" variable="">
+        <parameters>
+            <parameter name="GameBoard" type="Integer" array="True"/>
+            <parameter name="RowCount" type="Integer" array="False"/>
+            <parameter name="ColCount" type="Integer" array="False"/>
+            <parameter name="SnakeWrap" type="Boolean" array="False"/>
+        </parameters>
+        <body>
+            <declare name="Col" type="String" array="False" size=""/>
+            <declare name="Edge" type="String" array="False" size=""/>
+            <assign variable="Col" expression="&quot;|----&quot;"/>
+            <declare name="Row" type="String" array="False" size=""/>
+            <declare name="Index" type="Integer" array="False" size=""/>
+            <declare name="Rows" type="Integer" array="False" size=""/>
+            <assign variable="Edge" expression="&quot;&quot;"/>
+            <for variable="Index" start="0" end="ColCount - 1" direction="inc" step="1">
+                <assign variable="Edge" expression="Edge &amp; Col"/>
+            </for>
+            <assign variable="Edge" expression="Edge &amp; &quot;|&quot;"/>
+            <for variable="Rows" start="0" end="RowCount - 1" direction="inc" step="1">
+                <output expression="Edge"/>
+                <if expression="Rows % 2 == 1 and SnakeWrap = True">
+                    <then>
+                        <assign variable="Row" expression="&quot;&quot;"/>
+                        <for variable="Index" start="(Rows * ColCount)" end="ColCount + (Rows * ColCount) - 1" direction="inc" step="1">
+                            <if expression="GameBoard[Index] = 1000">
+                                <then>
+                                    <assign variable="Row" expression="&quot;  * |&quot; &amp; Row"/>
+                                </then>
+                                <else>
+                                    <if expression="Rows = RowCount-1 and Index = ColCount + (Rows * ColCount) - 1">
+                                        <then>
+                                            <assign variable="Row" expression="&quot;  X |&quot; &amp; Row"/>
+                                        </then>
+                                        <else>
+                                            <if expression="GameBoard[Index] = -1000">
+                                                <then>
+                                                    <assign variable="Row" expression="&quot;    |&quot; &amp; Row"/>
+                                                </then>
+                                                <else>
+                                                    <if expression="GameBoard[Index] = -999">
+                                                        <then>
+                                                            <assign variable="Row" expression="&quot;  ? |&quot; &amp; Row"/>
+                                                        </then>
+                                                        <else>
+                                                            <if expression="GameBoard[Index] &lt; 0 or GameBoard[Index] &gt; 9">
+                                                                <then>
+                                                                    <if expression="GameBoard[Index] &lt; -9">
+                                                                        <then>
+                                                                            <assign variable="Row" expression="&quot;&quot; &amp; GameBoard[Index] &amp; &quot; |&quot; &amp; Row"/>
+                                                                        </then>
+                                                                        <else>
+                                                                            <assign variable="Row" expression="&quot; &quot; &amp; GameBoard[Index] &amp; &quot; |&quot; &amp; Row"/>
+                                                                        </else>
+                                                                    </if>
+                                                                </then>
+                                                                <else>
+                                                                    <assign variable="Row" expression="&quot;  &quot; &amp; GameBoard[Index] &amp; &quot; |&quot; &amp; Row"/>
+                                                                </else>
+                                                            </if>
+                                                        </else>
+                                                    </if>
+                                                </else>
+                                            </if>
+                                        </else>
+                                    </if>
+                                </else>
+                            </if>
+                        </for>
+                        <assign variable="Row" expression="&quot;|&quot; &amp; Row"/>
+                    </then>
+                    <else>
+                        <assign variable="Row" expression="&quot;|&quot;"/>
+                        <for variable="Index" start="(Rows * ColCount)" end="ColCount + (Rows * ColCount) - 1" direction="inc" step="1">
+                            <if expression="GameBoard[Index] = 1000">
+                                <then>
+                                    <assign variable="Row" expression="Row &amp; &quot;  * |&quot;"/>
+                                </then>
+                                <else>
+                                    <if expression="Rows = RowCount-1 and Index = ColCount + (Rows * ColCount) - 1">
+                                        <then>
+                                            <assign variable="Row" expression="Row &amp; &quot;  X |&quot;"/>
+                                        </then>
+                                        <else>
+                                            <if expression="GameBoard[Index] = -1000">
+                                                <then>
+                                                    <assign variable="Row" expression="Row &amp; &quot;    |&quot;"/>
+                                                </then>
+                                                <else>
+                                                    <if expression="GameBoard[Index] = -999">
+                                                        <then>
+                                                            <assign variable="Row" expression="Row &amp; &quot;  ? |&quot;"/>
+                                                        </then>
+                                                        <else>
+                                                            <if expression="GameBoard[Index] &lt; 0 or GameBoard[Index] &gt; 9">
+                                                                <then>
+                                                                    <if expression="GameBoard[Index] &lt; -9">
+                                                                        <then>
+                                                                            <assign variable="Row" expression="Row &amp; &quot;&quot; &amp; GameBoard[Index] &amp; &quot; |&quot;"/>
+                                                                        </then>
+                                                                        <else>
+                                                                            <assign variable="Row" expression="Row &amp; &quot; &quot; &amp; GameBoard[Index] &amp; &quot; |&quot;"/>
+                                                                        </else>
+                                                                    </if>
+                                                                </then>
+                                                                <else>
+                                                                    <assign variable="Row" expression="Row &amp; &quot;  &quot; &amp; GameBoard[Index] &amp; &quot; |&quot;"/>
+                                                                </else>
+                                                            </if>
+                                                        </else>
+                                                    </if>
+                                                </else>
+                                            </if>
+                                        </else>
+                                    </if>
+                                </else>
+                            </if>
+                        </for>
+                    </else>
+                </if>
+                <output expression="Row"/>
+            </for>
+            <output expression="Edge &amp; ToChar(13)"/>
+        </body>
+    </function>
+    <function name="GenerateRandom" type="Integer" variable="RandomNumber">
+        <parameters>
+            <parameter name="TotalRandom" type="Boolean" array="False"/>
+            <parameter name="BoardInd" type="Integer" array="False"/>
+            <parameter name="PositiveCount" type="Integer" array="False"/>
+            <parameter name="NegativeCount" type="Integer" array="False"/>
+            <parameter name="ContinuousNegative" type="Integer" array="False"/>
+            <parameter name="RandomBegin" type="Integer" array="False"/>
+            <parameter name="RandomEnd" type="Integer" array="False"/>
+            <parameter name="RandomRan" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="RandomNumber" type="Integer" array="False" size=""/>
+            <if expression="TotalRandom == True or RandomEnd &lt;= 0">
+                <then>
+                    <assign variable="RandomNumber" expression="Random(RandomRan) + RandomBegin"/>
+                </then>
+                <else>
+                    <if expression="ContinuousNegative = 3 or (BoardInd &gt; 5 and PositiveCount + 3 &lt; NegativeCount)">
+                        <then>
+                            <assign variable="RandomEnd" expression="RandomEnd + 1"/>
+                            <assign variable="RandomNumber" expression="Random(RandomEnd)"/>
+                        </then>
+                        <else>
+                            <assign variable="RandomNumber" expression="Random(RandomRan) + RandomBegin"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="GetMove" type="String" variable="PlayerMove">
+        <parameters>
+            <parameter name="TurnIndex" type="Integer" array="False"/>
+            <parameter name="HighestAllowableMove" type="Integer" array="False"/>
+            <parameter name="CurrentPlayer" type="Integer" array="False"/>
+            <parameter name="PlayNames" type="String" array="True"/>
+        </parameters>
+        <body>
+            <declare name="PlayerMove" type="String" array="False" size=""/>
+            <declare name="ValidMove" type="Boolean" array="False" size=""/>
+            <assign variable="ValidMove" expression="False"/>
+            <declare name="InvalidMoveMessage" type="String" array="False" size=""/>
+            <assign variable="InvalidMoveMessage" expression="ToChar(13) &amp; &quot;Invalid move.  Please enter a number between 1 and &quot; &amp; HighestAllowableMove"/>
+            <if expression="TurnIndex == 1">
+                <then>
+                    <assign variable="PlayerMove" expression="ToString(Random(HighestAllowableMove))"/>
+                </then>
+                <else>
+                    <output expression="&quot;It's your turn &quot; &amp; PlayNames[CurrentPlayer] &amp; &quot;!  Please enter a number between 1 and &quot; &amp; HighestAllowableMove"/>
+                    <while expression="ValidMove = False">
+                        <input variable="PlayerMove"/>
+                        <if expression="PlayerMove = &quot;&quot;">
+                            <then>
+                                <output expression="InvalidMoveMessage"/>
+                            </then>
+                            <else>
+                                <assign variable="PlayerMove" expression="ConvertToUpper(PlayerMove)"/>
+                                <if expression="PlayerMove = &quot;QUIT&quot;">
+                                    <then>
+                                        <assign variable="ValidMove" expression="True"/>
+                                    </then>
+                                    <else>
+                                        <if expression="ValidateStringNumber(PlayerMove) = True">
+                                            <then>
+                                                <if expression="ToInteger(PlayerMove) &gt; HighestAllowableMove or ToInteger(PlayerMove) &lt; 1">
+                                                    <then>
+                                                        <output expression="InvalidMoveMessage"/>
+                                                    </then>
+                                                    <else>
+                                                        <assign variable="ValidMove" expression="True"/>
+                                                    </else>
+                                                </if>
+                                            </then>
+                                            <else>
+                                                <output expression="InvalidMoveMessage"/>
+                                            </else>
+                                        </if>
+                                    </else>
+                                </if>
+                            </else>
+                        </if>
+                    </while>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="GetName" type="String" variable="ValidatedName">
+        <parameters>
+            <parameter name="Count" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="NamePrompt" type="String" array="False" size=""/>
+            <declare name="Name" type="String" array="False" size=""/>
+            <declare name="ValidName" type="Boolean" array="False" size=""/>
+            <assign variable="ValidName" expression="False"/>
+            <declare name="ValidatedName" type="String" array="False" size=""/>
+            <assign variable="ValidatedName" expression="&quot;&quot;"/>
+            <declare name="NameIndex" type="Integer" array="False" size=""/>
+            <declare name="Unicode" type="Integer" array="False" size=""/>
+            <assign variable="NamePrompt" expression="&quot;Please enter player &quot; &amp; Count + 1 &amp; &quot;'s name: &quot;"/>
+            <declare name="SpaceAllowed" type="Boolean" array="False" size=""/>
+            <assign variable="SpaceAllowed" expression="False"/>
+            <declare name="FinalCharacterIndex" type="Integer" array="False" size=""/>
+            <assign variable="FinalCharacterIndex" expression="-1"/>
+            <while expression="ValidName = False">
+                <output expression="ToChar(13) &amp; NamePrompt"/>
+                <input variable="Name"/>
+                <for variable="NameIndex" start="0" end="Len(Name) - 1" direction="inc" step="1">
+                    <assign variable="Unicode" expression="ToCode(Char(Name,NameIndex))"/>
+                    <if expression="Unicode != 32">
+                        <then>
+                            <assign variable="FinalCharacterIndex" expression="NameIndex"/>
+                        </then>
+                        <else/>
+                    </if>
+                </for>
+                <if expression="FinalCharacterIndex = -1">
+                    <then>
+                        <output expression="&quot;Invalid name.  Please enter your name.&quot;"/>
+                    </then>
+                    <else>
+                        <assign variable="ValidName" expression="True"/>
+                    </else>
+                </if>
+            </while>
+            <for variable="NameIndex" start="0" end="FinalCharacterIndex" direction="inc" step="1">
+                <assign variable="Unicode" expression="ToCode(Char(Name,NameIndex))"/>
+                <if expression="Unicode = 32">
+                    <then>
+                        <if expression="SpaceAllowed = False">
+                            <then/>
+                            <else>
+                                <assign variable="ValidatedName" expression="ValidatedName &amp; ToChar(Unicode)"/>
+                                <assign variable="SpaceAllowed" expression="False"/>
+                            </else>
+                        </if>
+                    </then>
+                    <else>
+                        <assign variable="ValidatedName" expression="ValidatedName &amp; ToChar(Unicode)"/>
+                        <assign variable="SpaceAllowed" expression="True"/>
+                    </else>
+                </if>
+            </for>
+        </body>
+    </function>
+    <function name="MoveAndPoints" type="None" variable="">
+        <parameters>
+            <parameter name="PlayPosition" type="Integer" array="False"/>
+            <parameter name="PrevPosition" type="Integer" array="False"/>
+            <parameter name="PlayNames" type="String" array="True"/>
+            <parameter name="ActivePlay" type="Integer" array="False"/>
+            <parameter name="PlayerCount" type="Integer" array="False"/>
+            <parameter name="PlayScores" type="Integer" array="True"/>
+            <parameter name="ScoreMultiplier" type="Integer" array="False"/>
+            <parameter name="PlayerWithMultiplier" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="Index" type="Integer" array="False" size=""/>
+            <if expression="PlayPosition - PrevPosition == 1">
+                <then>
+                    <output expression="PlayNames[ActivePlay] &amp; &quot; moves &quot; &amp; PlayPosition - PrevPosition &amp; &quot; space&quot; &amp; ToChar(13)"/>
+                </then>
+                <else>
+                    <output expression="PlayNames[ActivePlay] &amp; &quot; moves &quot; &amp; PlayPosition - PrevPosition &amp; &quot; spaces&quot; &amp; ToChar(13)"/>
+                </else>
+            </if>
+            <for variable="Index" start="0" end="PlayerCount - 1" direction="inc" step="1">
+                <output expression="PlayNames[Index] &amp; &quot; you have collected &quot; &amp; PlayScores[Index] &amp; &quot; points!&quot;"/>
+                <if expression="Index = PlayerWithMultiplier">
+                    <then>
+                        <if expression="ScoreMultiplier = 0">
+                            <then>
+                                <output expression="PlayNames[Index] &amp; &quot; your score has been doubled due to landing on the mystery square! Your score is now &quot; &amp; PlayScores[Index] * 2 &amp; &quot;!&quot;"/>
+                            </then>
+                            <else>
+                                <declare name="NewScore" type="Real" array="False" size=""/>
+                                <assign variable="NewScore" expression="PlayScores[Index] / 2"/>
+                                <output expression="PlayNames[Index] &amp; &quot; your score has been halved due to landing on the mystery square! Your score is now &quot; &amp; NewScore &amp; &quot;!&quot;"/>
+                            </else>
+                        </if>
+                    </then>
+                    <else/>
+                </if>
+            </for>
+        </body>
+    </function>
+    <function name="OptionsChangeFeature" type="Boolean" variable="FeatureEnabled">
+        <parameters>
+            <parameter name="WhatIsChanging" type="String" array="False"/>
+            <parameter name="FeatureEnabled" type="Boolean" array="False"/>
+        </parameters>
+        <body>
+            <declare name="Question" type="String" array="False" size=""/>
+            <declare name="Currently" type="String" array="False" size=""/>
+            <declare name="ChangesTo" type="String" array="False" size=""/>
+            <if expression="FeatureEnabled = True">
+                <then>
+                    <assign variable="Currently" expression="&quot;enable&quot;"/>
+                    <assign variable="ChangesTo" expression="&quot;disable&quot;"/>
+                </then>
+                <else>
+                    <assign variable="Currently" expression="&quot;disable&quot;"/>
+                    <assign variable="ChangesTo" expression="&quot;enable&quot;"/>
+                </else>
+            </if>
+            <assign variable="Question" expression="ToChar(13) &amp; WhatIsChanging &amp; &quot; is currently &quot; &amp; Currently &amp; &quot;d.  Do you want to &quot; &amp; ChangesTo &amp; &quot; this? (Yes/No)&quot;"/>
+            <if expression="ValidateYesOrNo(Question) = True">
+                <then>
+                    <if expression="FeatureEnabled = True">
+                        <then>
+                            <assign variable="FeatureEnabled" expression="False"/>
+                        </then>
+                        <else>
+                            <assign variable="FeatureEnabled" expression="True"/>
+                        </else>
+                    </if>
+                    <output expression="ToChar(13) &amp; WhatIsChanging &amp; &quot; has been &quot;&amp; ChangesTo &amp; &quot;d.&quot;"/>
+                </then>
+                <else>
+                    <output expression="ToChar(13) &amp; WhatIsChanging &amp; &quot; remains &quot; &amp; Currently &amp; &quot;d.&quot;"/>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="OptionsGetNumber" type="Integer" variable="NewOptionsNumber">
+        <parameters>
+            <parameter name="ValueChanging" type="String" array="False"/>
+            <parameter name="LowestNumber" type="Integer" array="False"/>
+            <parameter name="HighestNumber" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="ValidNumber" type="Boolean" array="False" size=""/>
+            <assign variable="ValidNumber" expression="False"/>
+            <declare name="NewOptionsNumber" type="Integer" array="False" size=""/>
+            <while expression="ValidNumber = False">
+                <output expression="ToChar(13) &amp; &quot;Please enter the &quot; &amp; ValueChanging &amp; &quot; (between &quot; &amp; LowestNumber &amp; &quot; and &quot; &amp; HighestNumber &amp; &quot;):&quot;"/>
+                <input variable="NewOptionsNumber"/>
+                <if expression="NewOptionsNumber &lt; LowestNumber or NewOptionsNumber &gt; HighestNumber">
+                    <then>
+                        <output expression="ToChar(13) &amp; &quot;Invalid input. The &quot; &amp; ValueChanging &amp; &quot; must be between &quot; &amp; LowestNumber &amp; &quot; and &quot; &amp; HighestNumber"/>
+                    </then>
+                    <else>
+                        <assign variable="ValidNumber" expression="True"/>
+                        <output expression="ToChar(13) &amp; &quot;The &quot; &amp; ValueChanging &amp; &quot; is now set to &quot; &amp; NewOptionsNumber"/>
+                    </else>
+                </if>
+            </while>
+        </body>
+    </function>
+    <function name="Ready" type="Boolean" variable="IsGameOn">
+        <parameters/>
+        <body>
+            <declare name="IsGameOn" type="Boolean" array="False" size=""/>
+            <declare name="NotReadyChoice" type="Integer" array="False" size=""/>
+            <declare name="ValidNotReadyChoice" type="Boolean" array="False" size=""/>
+            <assign variable="ValidNotReadyChoice" expression="False"/>
+            <declare name="AreYouReady" type="String" array="False" size=""/>
+            <assign variable="AreYouReady" expression="&quot;Are you ready? (Yes/No)&quot;"/>
+            <if expression="ValidateYesOrNo(AreYouReady) = True">
+                <then>
+                    <assign variable="IsGameOn" expression="True"/>
+                </then>
+                <else>
+                    <while expression="ValidNotReadyChoice = False">
+                        <output expression="ToChar(13) &amp; &quot;Would you like to:&quot; &amp; ToChar(13) &amp; &quot;1.  Return to main menu&quot; &amp; ToChar(13) &amp; &quot;2.  Play game&quot;"/>
+                        <input variable="NotReadyChoice"/>
+                        <if expression="NotReadyChoice &lt; 1 or NotReadyChoice &gt; 2">
+                            <then>
+                                <output expression="ToChar(13) &amp; &quot;Invalid input.  Please enter 1 or 2.&quot;"/>
+                            </then>
+                            <else>
+                                <if expression="NotReadyChoice = 1">
+                                    <then>
+                                        <assign variable="IsGameOn" expression="False"/>
+                                    </then>
+                                    <else>
+                                        <assign variable="IsGameOn" expression="True"/>
+                                    </else>
+                                </if>
+                                <assign variable="ValidNotReadyChoice" expression="True"/>
+                            </else>
+                        </if>
+                    </while>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="RunGame" type="None" variable="">
+        <parameters>
+            <parameter name="RowsAmount" type="Integer" array="False"/>
+            <parameter name="ColumnAmount" type="Integer" array="False"/>
+            <parameter name="FinalBoardAmount" type="Integer" array="False"/>
+            <parameter name="AmountPlayers" type="Integer" array="False"/>
+            <parameter name="RanFinish" type="Integer" array="False"/>
+            <parameter name="RanStart" type="Integer" array="False"/>
+            <parameter name="TrueRand" type="Boolean" array="False"/>
+            <parameter name="SnakeWrapOn" type="Boolean" array="False"/>
+            <parameter name="QuestionMarker" type="Boolean" array="False"/>
+        </parameters>
+        <body>
+            <declare name="Board" type="Integer" array="True" size="RowsAmount * ColumnAmount"/>
+            <assign variable="Board[Size(Board) - 1]" expression="FinalBoardAmount"/>
+            <declare name="PlayerNames" type="String" array="True" size="AmountPlayers"/>
+            <declare name="PlayerScores" type="Integer" array="True" size="AmountPlayers"/>
+            <declare name="GameOn" type="Boolean" array="False" size=""/>
+            <declare name="PlayerToken" type="Integer" array="False" size=""/>
+            <assign variable="PlayerToken" expression="1000"/>
+            <assign variable="Board[0]" expression="PlayerToken"/>
+            <declare name="PlayerPosition" type="Integer" array="False" size=""/>
+            <assign variable="PlayerPosition" expression="0"/>
+            <declare name="ActivePlayer" type="Integer" array="False" size=""/>
+            <declare name="ActivePlayerMove" type="Integer" array="False" size=""/>
+            <declare name="ActivePlayerMoveString" type="String" array="False" size=""/>
+            <assign variable="ActivePlayerMove" expression="6"/>
+            <declare name="TurnCount" type="Integer" array="False" size=""/>
+            <assign variable="TurnCount" expression="0"/>
+            <declare name="PosCount" type="Integer" array="False" size=""/>
+            <assign variable="PosCount" expression="0"/>
+            <declare name="NegCount" type="Integer" array="False" size=""/>
+            <assign variable="NegCount" expression="0"/>
+            <declare name="ContinuousNeg" type="Integer" array="False" size=""/>
+            <assign variable="ContinuousNeg" expression="0"/>
+            <declare name="RandomRange" type="Integer" array="False" size=""/>
+            <assign variable="RandomRange" expression="RanFinish - RanStart + 1"/>
+            <declare name="Index" type="Integer" array="False" size=""/>
+            <declare name="Multiplier" type="Integer" array="False" size=""/>
+            <assign variable="Multiplier" expression="Random(2)"/>
+            <declare name="PlayerScoreMultiplied" type="Integer" array="False" size=""/>
+            <assign variable="PlayerScoreMultiplied" expression="-1"/>
+            <for variable="Index" start="1" end="Size(Board) - 2" direction="inc" step="1">
+                <assign variable="Board[Index]" expression="GenerateRandom(TrueRand,Index,PosCount,NegCount,ContinuousNeg,RanStart,RanFinish,RandomRange)"/>
+                <if expression="Board[Index] &gt;= 0">
+                    <then>
+                        <assign variable="ContinuousNeg" expression="0"/>
+                        <assign variable="PosCount" expression="PosCount + 1"/>
+                    </then>
+                    <else>
+                        <assign variable="ContinuousNeg" expression="ContinuousNeg + 1"/>
+                        <assign variable="NegCount" expression="NegCount + 1"/>
+                    </else>
+                </if>
+            </for>
+            <if expression="QuestionMarker = True">
+                <then>
+                    <declare name="QuestionMarkIndex" type="Integer" array="False" size=""/>
+                    <declare name="HalfSizeBoard" type="Integer" array="False" size=""/>
+                    <assign variable="HalfSizeBoard" expression="Size(Board) / 2"/>
+                    <assign variable="QuestionMarkIndex" expression="Random(HalfSizeBoard) + HalfSizeBoard - 1"/>
+                    <assign variable="Board[QuestionMarkIndex]" expression="-999"/>
+                </then>
+                <else/>
+            </if>
+            <for variable="Index" start="0" end="AmountPlayers - 1" direction="inc" step="1">
+                <assign variable="PlayerNames[Index]" expression="GetName(Index)"/>
+                <assign variable="PlayerScores[Index]" expression="0"/>
+            </for>
+            <output expression="ToChar(13) &amp; &quot;Initial board state&quot;"/>
+            <call expression="DrawBoard(Board,RowsAmount,ColumnAmount,SnakeWrapOn)"/>
+            <assign variable="GameOn" expression="Ready()"/>
+            <while expression="GameOn = True">
+                <assign variable="Board[PlayerPosition]" expression="-1000"/>
+                <assign variable="ActivePlayer" expression="TurnCount % AmountPlayers"/>
+                <assign variable="TurnCount" expression="TurnCount + 1"/>
+                <output expression="ToChar(13) &amp; &quot;Turn &quot; &amp; TurnCount"/>
+                <if expression="PlayerPosition + ActivePlayerMove + 1 &gt;= Size(Board)">
+                    <then>
+                        <assign variable="ActivePlayerMove" expression="Size(Board) - PlayerPosition - 1"/>
+                    </then>
+                    <else>
+                        <assign variable="ActivePlayerMove" expression="ActivePlayerMove + 1"/>
+                    </else>
+                </if>
+                <assign variable="ActivePlayerMoveString" expression="GetMove(TurnCount,ActivePlayerMove,ActivePlayer,PlayerNames)"/>
+                <if expression="ActivePlayerMoveString = &quot;QUIT&quot;">
+                    <then>
+                        <declare name="AreYouSure" type="String" array="False" size=""/>
+                        <assign variable="AreYouSure" expression="ToChar(13) &amp; &quot;Are you sure you want to quit? (yes/no)&quot;"/>
+                        <if expression="ValidateYesOrNo(AreYouSure) = True">
+                            <then>
+                                <assign variable="GameOn" expression="False"/>
+                            </then>
+                            <else>
+                                <assign variable="TurnCount" expression="TurnCount - 1"/>
+                                <assign variable="ActivePlayerMove" expression="ActivePlayerMove - 1"/>
+                            </else>
+                        </if>
+                    </then>
+                    <else>
+                        <assign variable="ActivePlayerMove" expression="ToInteger(ActivePlayerMoveString)"/>
+                        <declare name="PreviousPosition" type="Integer" array="False" size=""/>
+                        <assign variable="PreviousPosition" expression="PlayerPosition"/>
+                        <assign variable="PlayerPosition" expression="PlayerPosition + ActivePlayerMove"/>
+                        <for variable="Index" start="PreviousPosition + 1" end="PlayerPosition - 1" direction="inc" step="1">
+                            <if expression="Board[Index] = -999">
+                                <then/>
+                                <else>
+                                    <assign variable="PlayerScores[ActivePlayer]" expression="PlayerScores[ActivePlayer] + Board[Index]"/>
+                                    <assign variable="Board[Index]" expression="-1000"/>
+                                </else>
+                            </if>
+                        </for>
+                        <if expression="Board[Index] = -999">
+                            <then>
+                                <assign variable="PlayerScoreMultiplied" expression="ActivePlayer"/>
+                                <if expression="Multiplier = 0">
+                                    <then>
+                                        <output expression="PlayerNames[ActivePlayer] &amp; &quot; has landed on the mystery square!  From now on &quot; &amp; PlayerNames[ActivePlayer] &amp; &quot;'s total score will be doubled!&quot; &amp; ToChar(13)"/>
+                                    </then>
+                                    <else>
+                                        <output expression="PlayerNames[ActivePlayer] &amp; &quot;has landed on the mystery square!  From now on &quot; &amp; PlayerNames[ActivePlayer] &amp; &quot;'s total score will be halved!&quot; &amp; ToChar(13)"/>
+                                    </else>
+                                </if>
+                            </then>
+                            <else>
+                                <assign variable="PlayerScores[ActivePlayer]" expression="PlayerScores[ActivePlayer] + Board[Index]"/>
+                            </else>
+                        </if>
+                        <assign variable="Board[PlayerPosition]" expression="1000"/>
+                        <call expression="DrawBoard(Board,RowsAmount,ColumnAmount,SnakeWrapOn)"/>
+                        <call expression="MoveAndPoints(PlayerPosition,PreviousPosition,PlayerNames,ActivePlayer,AmountPlayers,PlayerScores,Multiplier,PlayerScoreMultiplied)"/>
+                        <if expression="PlayerPosition &gt;= Size(Board) - 1">
+                            <then>
+                                <assign variable="GameOn" expression="False"/>
+                                <call expression="CompletionStatement(AmountPlayers,PlayerScores,PlayerNames,Multiplier,PlayerScoreMultiplied)"/>
+                            </then>
+                            <else>
+                                <if expression="TurnCount = 1">
+                                    <then>
+                                        <output expression="ToChar(13) &amp; &quot;Type 'quit' at any time to return to the main menu&quot;"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </while>
+        </body>
+    </function>
+    <function name="ShowRules" type="None" variable="">
+        <parameters>
+            <parameter name="SmallestPointValue" type="Integer" array="False"/>
+            <parameter name="BiggestPointValue" type="Integer" array="False"/>
+            <parameter name="LastPointValue" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="RulesText" type="String" array="False" size=""/>
+            <assign variable="RulesText" expression="ToChar(13) &amp; &quot;*  Players take turns to move around the board using a shared player token.&quot; &amp; ToChar(13) &amp; &quot;*  The board is randomly populated with points between &quot; &amp; SmallestPointValue &amp; &quot; and &quot; &amp; BiggestPointValue &amp; &quot; and the end space is worth &quot; &amp; LastPointValue &amp; &quot; .&quot; &amp; ToChar(13) &amp; &quot;*  The first player&#8217;s move is randomly decided and can be between 1 and 6 spaces.&quot; &amp; ToChar(13) &amp; &quot;*  Each turn after this, players can move anywhere between one space and one more than the last player&#8217;s move.&quot; &amp; ToChar(13) &amp; &quot;*  Players collect points they travel over, including the board space they end their move on.&quot; &amp; ToChar(13) &amp; &quot;*  The game ends when the player token reaches the final board space.&quot; &amp; ToChar(13) &amp; &quot;*  Watch out for the '?' box!  Ending your move on it will either half or double your points for the entire game!&quot; &amp; ToChar(13) &amp; &quot;*  The player with the most points when the game ends is the winner!&quot; &amp; ToChar(13) &amp; ToChar(13)&amp; &quot;Check out the options menu to adjust the rules to suit your preferences!&quot;"/>
+            <output expression="RulesText"/>
+        </body>
+    </function>
+    <function name="ValidateStringNumber" type="Boolean" variable="ValidInteger">
+        <parameters>
+            <parameter name="StringNumber" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="TextIndex" type="Integer" array="False" size=""/>
+            <declare name="Unicode" type="Integer" array="False" size=""/>
+            <declare name="ValidInteger" type="Boolean" array="False" size=""/>
+            <assign variable="ValidInteger" expression="True"/>
+            <for variable="TextIndex" start="0" end="Len(StringNumber) - 1" direction="inc" step="1">
+                <assign variable="Unicode" expression="ToCode(Char(StringNumber,TextIndex))"/>
+                <if expression="Unicode &gt;= 58 or Unicode &lt;= 47">
+                    <then>
+                        <assign variable="ValidInteger" expression="False"/>
+                    </then>
+                    <else/>
+                </if>
+            </for>
+        </body>
+    </function>
+    <function name="ValidateYesOrNo" type="Boolean" variable="Confirmed">
+        <parameters>
+            <parameter name="OriginalQuestion" type="String" array="False"/>
+        </parameters>
+        <body>
+            <declare name="YesOrNoAnswer" type="String" array="False" size=""/>
+            <declare name="ValidAnswer" type="Boolean" array="False" size=""/>
+            <assign variable="ValidAnswer" expression="False"/>
+            <declare name="Confirmed" type="Boolean" array="False" size=""/>
+            <while expression="ValidAnswer = False">
+                <output expression="OriginalQuestion"/>
+                <input variable="YesOrNoAnswer"/>
+                <assign variable="YesOrNoAnswer" expression="ConvertToUpper(YesOrNoAnswer)"/>
+                <if expression="YesOrNoAnswer = &quot;YES&quot; or YesOrNoAnswer = &quot;Y&quot;">
+                    <then>
+                        <assign variable="ValidAnswer" expression="True"/>
+                        <assign variable="Confirmed" expression="True"/>
+                    </then>
+                    <else>
+                        <if expression="YesOrNoAnswer = &quot;NO&quot; or YesOrNoAnswer = &quot;N&quot;">
+                            <then>
+                                <assign variable="ValidAnswer" expression="True"/>
+                                <assign variable="Confirmed" expression="False"/>
+                            </then>
+                            <else>
+                                <output expression="ToChar(13) &amp; &quot;Invalid answer.  Please type 'yes' or 'no'.&quot;"/>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </while>
+        </body>
+    </function>
+</flowgorithm>
